@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Office Small Meeting Room</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f8;
+      --panel: #ffffff;
+      --line: #d9dee5;
+      --text: #202124;
+      --muted: #5f6368;
+      --accent: #1a73e8;
+      --accent-strong: #0b57d0;
+      --ok: #137333;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 72px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      padding: 20px 0 28px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .calendar-shell,
+    .booking-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .calendar-shell {
+      min-height: 680px;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 680px;
+      border: 0;
+    }
+
+    .booking-shell {
+      padding: 18px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 11px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: 2px solid rgba(26, 115, 232, 0.18);
+      border-color: var(--accent);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .primary,
+    .secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      padding: 0 14px;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 16px;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .primary:hover {
+      background: var(--accent-strong);
+    }
+
+    .secondary {
+      color: var(--accent);
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .secondary:hover {
+      border-color: var(--accent);
+    }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 10px;
+      color: var(--ok);
+      font-size: 13px;
+    }
+
+    .note {
+      margin-top: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    code {
+      overflow-wrap: anywhere;
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-shell,
+      iframe {
+        min-height: 560px;
+        height: 560px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div>
+        <h1>Office Small Meeting Room</h1>
+        <div class="sub">View room bookings and create a Google Calendar event with the room pre-filled.</div>
+      </div>
+      <a class="secondary" id="openCalendar" target="_blank" rel="noopener">Open Calendar</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="layout">
+      <section class="calendar-shell" aria-label="Room calendar">
+        <iframe
+          title="Office Small Meeting Room calendar"
+          src="https://calendar.google.com/calendar/embed?src=c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896%40group.calendar.google.com&ctz=America%2FNew_York&mode=WEEK">
+        </iframe>
+      </section>
+
+      <aside class="booking-shell" aria-label="Create booking">
+        <h2>Book the Room</h2>
+        <form id="bookingForm">
+          <label for="title">Title</label>
+          <input id="title" name="title" value="Small Meeting Room" autocomplete="off">
+
+          <div class="row">
+            <div>
+              <label for="start">Start</label>
+              <input id="start" name="start" type="datetime-local" required>
+            </div>
+            <div>
+              <label for="end">End</label>
+              <input id="end" name="end" type="datetime-local" required>
+            </div>
+          </div>
+
+          <label for="details">Details</label>
+          <textarea id="details" name="details" placeholder="Optional"></textarea>
+
+          <a class="primary" id="bookingLink" target="_blank" rel="noopener">Open Google Calendar Booking</a>
+        </form>
+
+        <div class="tools">
+          <button class="secondary" id="copyCalendarId" type="button">Copy Calendar ID</button>
+          <button class="secondary" id="resetTime" type="button">Next 30 min</button>
+        </div>
+        <div class="status" id="status" aria-live="polite"></div>
+
+        <div class="note">
+          Booking opens in Google Calendar. The room is added as a guest, so the room calendar can auto-accept non-conflicting events and reject conflicting ones.
+          <br><br>
+          Calendar ID: <code id="calendarIdText">c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896@group.calendar.google.com</code>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const calendarId = "c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896@group.calendar.google.com";
+    const timezone = "America/New_York";
+
+    const titleInput = document.querySelector("#title");
+    const startInput = document.querySelector("#start");
+    const endInput = document.querySelector("#end");
+    const detailsInput = document.querySelector("#details");
+    const status = document.querySelector("#status");
+    const openCalendar = document.querySelector("#openCalendar");
+    const bookingLink = document.querySelector("#bookingLink");
+    const copyCalendarId = document.querySelector("#copyCalendarId");
+    const resetTime = document.querySelector("#resetTime");
+
+    const calendarViewUrl = "https://calendar.google.com/calendar/u/1/r?cid=" + encodeURIComponent(calendarId);
+    openCalendar.href = calendarViewUrl;
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function toLocalInputValue(date) {
+      return [
+        date.getFullYear(),
+        "-",
+        pad(date.getMonth() + 1),
+        "-",
+        pad(date.getDate()),
+        "T",
+        pad(date.getHours()),
+        ":",
+        pad(date.getMinutes())
+      ].join("");
+    }
+
+    function toGoogleDate(value) {
+      const date = new Date(value);
+      return [
+        date.getFullYear(),
+        pad(date.getMonth() + 1),
+        pad(date.getDate()),
+        "T",
+        pad(date.getHours()),
+        pad(date.getMinutes()),
+        "00"
+      ].join("");
+    }
+
+    function setNextSlot() {
+      const start = new Date();
+      start.setSeconds(0, 0);
+      const minutes = start.getMinutes();
+      start.setMinutes(minutes < 30 ? 30 : 60);
+
+      const end = new Date(start);
+      end.setMinutes(start.getMinutes() + 30);
+
+      startInput.value = toLocalInputValue(start);
+      endInput.value = toLocalInputValue(end);
+    }
+
+    function buildBookingUrl() {
+      const params = new URLSearchParams({
+        action: "TEMPLATE",
+        text: titleInput.value || "Small Meeting Room",
+        dates: toGoogleDate(startInput.value) + "/" + toGoogleDate(endInput.value),
+        details: detailsInput.value || "Booked from the Office Small Meeting Room page.",
+        location: "Office Small Meeting Room",
+        add: calendarId,
+        ctz: timezone
+      });
+
+      return "https://calendar.google.com/calendar/render?" + params.toString();
+    }
+
+    function updateBookingLink() {
+      if (!startInput.value || !endInput.value) {
+        bookingLink.removeAttribute("href");
+        status.textContent = "Choose a start and end time.";
+        return;
+      }
+
+      if (new Date(endInput.value) <= new Date(startInput.value)) {
+        bookingLink.removeAttribute("href");
+        status.textContent = "End time must be after start time.";
+        return;
+      }
+
+      bookingLink.href = buildBookingUrl();
+      status.textContent = "";
+    }
+
+    [titleInput, startInput, endInput, detailsInput].forEach((input) => {
+      input.addEventListener("input", updateBookingLink);
+      input.addEventListener("change", updateBookingLink);
+    });
+
+    copyCalendarId.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(calendarId);
+      status.textContent = "Calendar ID copied.";
+    });
+
+    resetTime.addEventListener("click", () => {
+      setNextSlot();
+      updateBookingLink();
+      status.textContent = "Time reset to the next 30-minute slot.";
+    });
+
+    setNextSlot();
+    updateBookingLink();
+  </script>
+</body>
+</html>
