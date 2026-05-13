@@ -10,11 +10,14 @@
       --bg: #f6f7f8;
       --panel: #ffffff;
       --line: #d9dee5;
+      --line-strong: #c4cad3;
       --text: #202124;
       --muted: #5f6368;
       --accent: #1a73e8;
+      --accent-soft: #d8e7ff;
       --accent-strong: #0b57d0;
       --ok: #137333;
+      --slot-hover: #f1f6ff;
     }
 
     * {
@@ -71,27 +74,155 @@
       align-items: start;
     }
 
-    .calendar-shell,
-    .booking-shell {
+    .scheduler-shell,
+    .booking-shell,
+    .live-shell {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
       overflow: hidden;
     }
 
-    .calendar-shell {
-      min-height: 680px;
-    }
-
-    iframe {
-      display: block;
-      width: 100%;
-      height: 680px;
-      border: 0;
-    }
-
     .booking-shell {
       padding: 18px;
+    }
+
+    .scheduler-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .scheduler-title {
+      min-width: 180px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .scheduler-actions,
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .day-header {
+      display: grid;
+      grid-template-columns: 62px repeat(7, minmax(82px, 1fr));
+      border-bottom: 1px solid var(--line-strong);
+      background: #fafbfc;
+    }
+
+    .day-spacer,
+    .day-cell {
+      min-height: 62px;
+      border-right: 1px solid var(--line);
+    }
+
+    .day-cell {
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .day-cell:last-child {
+      border-right: 0;
+    }
+
+    .day-name {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .day-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin-top: 4px;
+      border-radius: 50%;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .day-cell.today .day-number {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .grid-scroll {
+      height: 640px;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: 62px repeat(7, minmax(82px, 1fr));
+      grid-auto-rows: 28px;
+      min-width: 760px;
+      user-select: none;
+    }
+
+    .time-label {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      padding: 3px 8px 0 0;
+      border-right: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .time-slot {
+      position: relative;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid #e8eaed;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .time-slot.hour {
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .time-slot:hover {
+      background: var(--slot-hover);
+    }
+
+    .time-slot.selected {
+      background: var(--accent-soft);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .time-slot.selected.drag-end::after {
+      content: "";
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .selection-readout {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 46px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
     }
 
     h2 {
@@ -139,11 +270,12 @@
     }
 
     .primary,
-    .secondary {
+    .secondary,
+    .icon-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
+      min-height: 40px;
       border-radius: 6px;
       border: 1px solid transparent;
       padding: 0 14px;
@@ -164,20 +296,26 @@
       background: var(--accent-strong);
     }
 
-    .secondary {
+    .secondary,
+    .icon-button {
       color: var(--accent);
       background: #fff;
       border-color: var(--line);
     }
 
-    .secondary:hover {
+    .secondary:hover,
+    .icon-button:hover {
       border-color: var(--accent);
     }
 
+    .icon-button {
+      width: 40px;
+      padding: 0;
+      font-size: 20px;
+      line-height: 1;
+    }
+
     .tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
       margin-top: 12px;
     }
 
@@ -197,6 +335,23 @@
       line-height: 1.45;
     }
 
+    .live-shell {
+      margin-top: 18px;
+    }
+
+    .live-shell h2 {
+      margin: 0;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 520px;
+      border: 0;
+    }
+
     code {
       overflow-wrap: anywhere;
       color: var(--text);
@@ -204,15 +359,30 @@
       font-size: 12px;
     }
 
-    @media (max-width: 880px) {
+    @media (max-width: 940px) {
       .layout {
         grid-template-columns: 1fr;
       }
 
-      .calendar-shell,
-      iframe {
-        min-height: 560px;
-        height: 560px;
+      .booking-shell {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .topbar,
+      .scheduler-head,
+      .selection-readout {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .grid-scroll {
+        height: 540px;
       }
     }
   </style>
@@ -222,7 +392,7 @@
     <div class="wrap topbar">
       <div>
         <h1>Office Small Meeting Room</h1>
-        <div class="sub">View room bookings and create a Google Calendar event with the room pre-filled.</div>
+        <div class="sub">Drag on the weekly grid to choose a time, then open Google Calendar to finish booking.</div>
       </div>
       <a class="secondary" id="openCalendar" target="_blank" rel="noopener">Open Calendar</a>
     </div>
@@ -230,12 +400,34 @@
 
   <main class="wrap">
     <div class="layout">
-      <section class="calendar-shell" aria-label="Room calendar">
-        <iframe
-          title="Office Small Meeting Room calendar"
-          src="https://calendar.google.com/calendar/embed?src=c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896%40group.calendar.google.com&ctz=America%2FNew_York&mode=WEEK">
-        </iframe>
-      </section>
+      <div>
+        <section class="scheduler-shell" aria-label="Select booking time">
+          <div class="scheduler-head">
+            <div class="scheduler-title" id="weekTitle">Week</div>
+            <div class="scheduler-actions">
+              <button class="secondary" id="todayButton" type="button">Today</button>
+              <button class="icon-button" id="previousWeek" type="button" aria-label="Previous week">‹</button>
+              <button class="icon-button" id="nextWeek" type="button" aria-label="Next week">›</button>
+            </div>
+          </div>
+          <div class="day-header" id="dayHeader"></div>
+          <div class="grid-scroll" id="gridScroll">
+            <div class="time-grid" id="timeGrid"></div>
+          </div>
+          <div class="selection-readout">
+            <span id="selectionText">Drag a time range on the grid.</span>
+            <a class="secondary" id="openCalendarSmall" target="_blank" rel="noopener">View live bookings</a>
+          </div>
+        </section>
+
+        <section class="live-shell" aria-label="Live Google Calendar view">
+          <h2>Live Google Calendar View</h2>
+          <iframe
+            title="Office Small Meeting Room calendar"
+            src="https://calendar.google.com/calendar/embed?src=c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896%40group.calendar.google.com&ctz=America%2FNew_York&mode=WEEK">
+          </iframe>
+        </section>
+      </div>
 
       <aside class="booking-shell" aria-label="Create booking">
         <h2>Book the Room</h2>
@@ -267,7 +459,7 @@
         <div class="status" id="status" aria-live="polite"></div>
 
         <div class="note">
-          Booking opens in Google Calendar. The room is added as a guest, so the room calendar can auto-accept non-conflicting events and reject conflicting ones.
+          The selected time is only a draft until Google Calendar opens and you save the event. The room is added as a guest, so the room calendar can auto-accept non-conflicting events and reject conflicting ones.
           <br><br>
           Calendar ID: <code id="calendarIdText">c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896@group.calendar.google.com</code>
         </div>
@@ -278,6 +470,10 @@
   <script>
     const calendarId = "c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896@group.calendar.google.com";
     const timezone = "America/New_York";
+    const startHour = 7;
+    const endHour = 20;
+    const slotMinutes = 30;
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     const titleInput = document.querySelector("#title");
     const startInput = document.querySelector("#start");
@@ -285,15 +481,54 @@
     const detailsInput = document.querySelector("#details");
     const status = document.querySelector("#status");
     const openCalendar = document.querySelector("#openCalendar");
+    const openCalendarSmall = document.querySelector("#openCalendarSmall");
     const bookingLink = document.querySelector("#bookingLink");
     const copyCalendarId = document.querySelector("#copyCalendarId");
     const resetTime = document.querySelector("#resetTime");
+    const todayButton = document.querySelector("#todayButton");
+    const previousWeek = document.querySelector("#previousWeek");
+    const nextWeek = document.querySelector("#nextWeek");
+    const weekTitle = document.querySelector("#weekTitle");
+    const dayHeader = document.querySelector("#dayHeader");
+    const timeGrid = document.querySelector("#timeGrid");
+    const selectionText = document.querySelector("#selectionText");
+
+    let weekStart = startOfWeek(new Date());
+    let dragStart = null;
+    let dragEnd = null;
+    let isDragging = false;
 
     const calendarViewUrl = "https://calendar.google.com/calendar/u/1/r?cid=" + encodeURIComponent(calendarId);
     openCalendar.href = calendarViewUrl;
+    openCalendarSmall.href = calendarViewUrl;
 
     function pad(value) {
       return String(value).padStart(2, "0");
+    }
+
+    function startOfWeek(date) {
+      const result = new Date(date);
+      result.setHours(0, 0, 0, 0);
+      result.setDate(result.getDate() - result.getDay());
+      return result;
+    }
+
+    function addDays(date, days) {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+
+    function addMinutes(date, minutes) {
+      const result = new Date(date);
+      result.setMinutes(result.getMinutes() + minutes);
+      return result;
+    }
+
+    function sameDate(a, b) {
+      return a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate();
     }
 
     function toLocalInputValue(date) {
@@ -323,17 +558,28 @@
       ].join("");
     }
 
+    function formatTime(date) {
+      let hours = date.getHours();
+      const minutes = pad(date.getMinutes());
+      const suffix = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+      return hours + ":" + minutes + " " + suffix;
+    }
+
+    function formatSelection(start, end) {
+      return dayNames[start.getDay()] + " " +
+        (start.getMonth() + 1) + "/" + start.getDate() + ", " +
+        formatTime(start) + " - " + formatTime(end);
+    }
+
     function setNextSlot() {
       const start = new Date();
       start.setSeconds(0, 0);
       const minutes = start.getMinutes();
       start.setMinutes(minutes < 30 ? 30 : 60);
 
-      const end = new Date(start);
-      end.setMinutes(start.getMinutes() + 30);
-
-      startInput.value = toLocalInputValue(start);
-      endInput.value = toLocalInputValue(end);
+      const end = addMinutes(start, 30);
+      setSelection(start, end, "Time reset to the next 30-minute slot.");
     }
 
     function buildBookingUrl() {
@@ -353,23 +599,174 @@
     function updateBookingLink() {
       if (!startInput.value || !endInput.value) {
         bookingLink.removeAttribute("href");
+        selectionText.textContent = "Drag a time range on the grid.";
         status.textContent = "Choose a start and end time.";
         return;
       }
 
-      if (new Date(endInput.value) <= new Date(startInput.value)) {
+      const start = new Date(startInput.value);
+      const end = new Date(endInput.value);
+
+      if (end <= start) {
         bookingLink.removeAttribute("href");
         status.textContent = "End time must be after start time.";
         return;
       }
 
       bookingLink.href = buildBookingUrl();
+      selectionText.textContent = formatSelection(start, end);
       status.textContent = "";
     }
 
+    function setSelection(start, end, message) {
+      startInput.value = toLocalInputValue(start);
+      endInput.value = toLocalInputValue(end);
+      updateBookingLink();
+      markSelectedSlots(start, end);
+      if (message) {
+        status.textContent = message;
+      }
+    }
+
+    function slotDate(dayOffset, slotIndex) {
+      const date = addDays(weekStart, dayOffset);
+      date.setHours(startHour, slotIndex * slotMinutes, 0, 0);
+      return date;
+    }
+
+    function renderWeek() {
+      const weekEnd = addDays(weekStart, 6);
+      weekTitle.textContent = weekStart.toLocaleString("en-US", { month: "short", day: "numeric" }) +
+        " - " + weekEnd.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+      dayHeader.replaceChildren();
+      const spacer = document.createElement("div");
+      spacer.className = "day-spacer";
+      dayHeader.appendChild(spacer);
+
+      const today = new Date();
+      for (let day = 0; day < 7; day += 1) {
+        const date = addDays(weekStart, day);
+        const cell = document.createElement("div");
+        cell.className = "day-cell" + (sameDate(date, today) ? " today" : "");
+        cell.innerHTML = "<div class=\"day-name\">" + dayNames[day] + "</div><div class=\"day-number\">" + date.getDate() + "</div>";
+        dayHeader.appendChild(cell);
+      }
+
+      timeGrid.replaceChildren();
+      const slotCount = ((endHour - startHour) * 60) / slotMinutes;
+      for (let slot = 0; slot < slotCount; slot += 1) {
+        const minutesFromStart = slot * slotMinutes;
+        const hour = startHour + Math.floor(minutesFromStart / 60);
+        const minute = minutesFromStart % 60;
+
+        const label = document.createElement("div");
+        label.className = "time-label";
+        label.textContent = minute === 0 ? formatTime(new Date(2026, 0, 1, hour, 0)).replace(":00", "") : "";
+        timeGrid.appendChild(label);
+
+        for (let day = 0; day < 7; day += 1) {
+          const cell = document.createElement("div");
+          const date = slotDate(day, slot);
+          cell.className = "time-slot" + (minute === 0 ? " hour" : "");
+          cell.dataset.time = String(date.getTime());
+          cell.dataset.day = String(day);
+          cell.dataset.slot = String(slot);
+          cell.setAttribute("aria-label", dayNames[day] + " " + formatTime(date));
+          timeGrid.appendChild(cell);
+        }
+      }
+
+      markSelectedSlots(new Date(startInput.value), new Date(endInput.value));
+    }
+
+    function markSelectedSlots(start, end) {
+      const startTime = start.getTime();
+      const endTime = end.getTime();
+
+      document.querySelectorAll(".time-slot").forEach((slot) => {
+        const slotStart = Number(slot.dataset.time);
+        const slotEnd = slotStart + slotMinutes * 60 * 1000;
+        const selected = Number.isFinite(startTime) &&
+          Number.isFinite(endTime) &&
+          slotStart >= startTime &&
+          slotEnd <= endTime;
+        slot.classList.toggle("selected", selected);
+        slot.classList.remove("drag-end");
+      });
+
+      const selectedSlots = document.querySelectorAll(".time-slot.selected");
+      if (selectedSlots.length > 0) {
+        selectedSlots[selectedSlots.length - 1].classList.add("drag-end");
+      }
+    }
+
+    function slotFromPoint(event) {
+      const element = document.elementFromPoint(event.clientX, event.clientY);
+      return element ? element.closest(".time-slot") : null;
+    }
+
+    function updateDragSelection(slot) {
+      if (!slot || dragStart === null) {
+        return;
+      }
+
+      dragEnd = Number(slot.dataset.time);
+      const first = Math.min(dragStart, dragEnd);
+      const last = Math.max(dragStart, dragEnd);
+      setSelection(new Date(first), new Date(last + slotMinutes * 60 * 1000));
+    }
+
+    timeGrid.addEventListener("pointerdown", (event) => {
+      const slot = event.target.closest(".time-slot");
+      if (!slot) {
+        return;
+      }
+
+      isDragging = true;
+      dragStart = Number(slot.dataset.time);
+      dragEnd = dragStart;
+      timeGrid.setPointerCapture(event.pointerId);
+      updateDragSelection(slot);
+      event.preventDefault();
+    });
+
+    timeGrid.addEventListener("pointermove", (event) => {
+      if (!isDragging) {
+        return;
+      }
+
+      updateDragSelection(slotFromPoint(event));
+      event.preventDefault();
+    });
+
+    timeGrid.addEventListener("pointerup", (event) => {
+      if (!isDragging) {
+        return;
+      }
+
+      updateDragSelection(slotFromPoint(event));
+      isDragging = false;
+      dragStart = null;
+      dragEnd = null;
+      status.textContent = "Time selected. Open Google Calendar to finish booking.";
+    });
+
+    timeGrid.addEventListener("pointercancel", () => {
+      isDragging = false;
+      dragStart = null;
+      dragEnd = null;
+    });
+
     [titleInput, startInput, endInput, detailsInput].forEach((input) => {
-      input.addEventListener("input", updateBookingLink);
-      input.addEventListener("change", updateBookingLink);
+      input.addEventListener("input", () => {
+        updateBookingLink();
+        markSelectedSlots(new Date(startInput.value), new Date(endInput.value));
+      });
+      input.addEventListener("change", () => {
+        updateBookingLink();
+        markSelectedSlots(new Date(startInput.value), new Date(endInput.value));
+      });
     });
 
     copyCalendarId.addEventListener("click", async () => {
@@ -379,11 +776,26 @@
 
     resetTime.addEventListener("click", () => {
       setNextSlot();
-      updateBookingLink();
-      status.textContent = "Time reset to the next 30-minute slot.";
+    });
+
+    todayButton.addEventListener("click", () => {
+      weekStart = startOfWeek(new Date());
+      renderWeek();
+    });
+
+    previousWeek.addEventListener("click", () => {
+      weekStart = addDays(weekStart, -7);
+      renderWeek();
+    });
+
+    nextWeek.addEventListener("click", () => {
+      weekStart = addDays(weekStart, 7);
+      renderWeek();
     });
 
     setNextSlot();
+    weekStart = startOfWeek(new Date(startInput.value));
+    renderWeek();
     updateBookingLink();
   </script>
 </body>
