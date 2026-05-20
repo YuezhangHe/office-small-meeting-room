@@ -459,7 +459,7 @@
         <div class="status" id="status" aria-live="polite"></div>
 
         <div class="note">
-          The selected time is only a draft until Google Calendar opens and you save the event. The room is added as a guest, so the room calendar can auto-accept non-conflicting events and reject conflicting ones.
+          The selected time is only a draft until Google Calendar opens and you save the event. Before saving, confirm the Calendar field says Office Small Meeting Room. This creates the booking directly on the shared room calendar, instead of inviting the room as a guest.
           <br><br>
           Calendar ID: <code id="calendarIdText">c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896@group.calendar.google.com</code>
         </div>
@@ -589,7 +589,7 @@
         dates: toGoogleDate(startInput.value) + "/" + toGoogleDate(endInput.value),
         details: detailsInput.value || "Booked from the Office Small Meeting Room page.",
         location: "Office Small Meeting Room",
-        add: calendarId,
+        src: calendarId,
         ctz: timezone
       });
 
