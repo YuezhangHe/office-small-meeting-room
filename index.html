@@ -345,11 +345,31 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .live-frame {
+      position: relative;
+    }
+
     iframe {
       display: block;
       width: 100%;
       height: 520px;
       border: 0;
+      pointer-events: none;
+    }
+
+    .live-overlay {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      max-width: 320px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      box-shadow: 0 8px 22px rgba(60, 64, 67, 0.14);
     }
 
     code {
@@ -422,10 +442,15 @@
 
         <section class="live-shell" aria-label="Live Google Calendar view">
           <h2>Live Google Calendar View</h2>
-          <iframe
-            title="Office Small Meeting Room calendar"
-            src="https://calendar.google.com/calendar/embed?src=c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896%40group.calendar.google.com&ctz=America%2FNew_York&mode=WEEK">
-          </iframe>
+          <div class="live-frame">
+            <iframe
+              title="Office Small Meeting Room calendar"
+              src="https://calendar.google.com/calendar/embed?src=c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896%40group.calendar.google.com&ctz=America%2FNew_York&mode=WEEK">
+            </iframe>
+            <div class="live-overlay">
+              Read-only preview. Use the booking grid above to create or edit bookings.
+            </div>
+          </div>
         </section>
       </div>
 
@@ -460,6 +485,7 @@
 
         <div class="note">
           The selected time is only a draft until Google Calendar opens and you save the event. Before saving, confirm the Calendar field says Office Small Meeting Room. This creates the booking directly on the shared room calendar, instead of inviting the room as a guest.
+          If Google Calendar says changes will only be reflected on your own calendar, cancel that page and start again from the booking button here.
           <br><br>
           Calendar ID: <code id="calendarIdText">c_0a2924a0386a9083c9ad6a0c5a0fb38419a2288a5fb3748f055f65a71dc5f896@group.calendar.google.com</code>
         </div>
